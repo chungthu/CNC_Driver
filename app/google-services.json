@@ -1,0 +1,130 @@
+{
+  "project_info": {
+    "project_number": "907046791906",
+    "firebase_url": "https://duantotnghiep-37ef2.firebaseio.com",
+    "project_id": "duantotnghiep-37ef2",
+    "storage_bucket": "duantotnghiep-37ef2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907046791906:android:8eef31fa057a1966c7ccbb",
+        "android_client_info": {
+          "package_name": "com.diamond.diamond.print"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907046791906-svsbmjt11urpq54g278rsc774qo7aq2k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.diamond.diamond.print",
+            "certificate_hash": "51a34fc4fb8d3ff03c67008eb811025a3d55d6f1"
+          }
+        },
+        {
+          "client_id": "907046791906-ksg6pn63kp2v957gpketh9m0o74u1pqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd1Y34NDCwQzvaIx0Qou7n8BVihx7kn04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907046791906-ksg6pn63kp2v957gpketh9m0o74u1pqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907046791906:android:85351277f434e23cc7ccbb",
+        "android_client_info": {
+          "package_name": "com.example.cnc_driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907046791906-k86nro861h762kp158llnvlit9988pgg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cnc_driver",
+            "certificate_hash": "382129ddccad97a0292b2d945f4d0242cff9415f"
+          }
+        },
+        {
+          "client_id": "907046791906-ksg6pn63kp2v957gpketh9m0o74u1pqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd1Y34NDCwQzvaIx0Qou7n8BVihx7kn04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907046791906-ksg6pn63kp2v957gpketh9m0o74u1pqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:907046791906:android:3eebbf291da9de5ac7ccbb",
+        "android_client_info": {
+          "package_name": "vn.edu.poly.testduan2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "907046791906-c7eq41of6ol1kkjmla6ml2ekk7hlhst8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.edu.poly.testduan2",
+            "certificate_hash": "51a34fc4fb8d3ff03c67008eb811025a3d55d6f1"
+          }
+        },
+        {
+          "client_id": "907046791906-pe5rl5rehjit4c7209398dmtqddd34f1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "vn.edu.poly.testduan2",
+            "certificate_hash": "6dd640a47d394381523993cab57084b1c05d222b"
+          }
+        },
+        {
+          "client_id": "907046791906-ksg6pn63kp2v957gpketh9m0o74u1pqr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAd1Y34NDCwQzvaIx0Qou7n8BVihx7kn04"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "907046791906-ksg6pn63kp2v957gpketh9m0o74u1pqr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
