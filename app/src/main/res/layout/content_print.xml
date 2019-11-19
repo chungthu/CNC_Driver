@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".printer.PrintActivity"
+    tools:showIn="@layout/activity_print">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="Disconnect"
+        android:layout_marginEnd="10dp"
+        android:id="@+id/txtstatus"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_below="@id/txtstatus"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"
+            android:id="@+id/recyclerv"/>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="2dp"
+        android:padding="6dp"
+        android:layout_marginBottom="-2dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/connect"
+            android:textAllCaps="false"
+
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="Connect"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/print"
+            android:textAllCaps="false"
+            android:layout_margin="2dp"
+            android:layout_weight="1"
+            android:text="Print"/>
+
+    </LinearLayout>
+
+
+</RelativeLayout>

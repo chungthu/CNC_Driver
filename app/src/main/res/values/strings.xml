@@ -21,5 +21,6 @@
     <string name="title_milk_tea">Milk Tea</string>
     <string name="title_fruit">Fruit</string>
     <string name="title_bread">Bread</string>
+    <string name="title_activity_print">PrintActivity</string>
 
 </resources>

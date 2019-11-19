@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
@@ -27,6 +28,7 @@ public class FruitFragment extends BaseFragment {
 
     @BindView(R.id.rv_fruit)
     RecyclerView rvFruit;
+
     private ProductAdapter adapter;
     private List<ProductResponse> list;
     private FirebaseManager firebaseManager = new FirebaseManager();
