@@ -1,19 +1,27 @@
 package com.example.cnc_driver.printer;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.cnc_driver.common.eventBus.ActionEvent;
+import com.example.cnc_driver.common.eventBus.MessagesEvent;
+import com.example.cnc_driver.controller.ProductBeanAdapter;
+import com.example.cnc_driver.net.response.BillResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Handler;
 import android.os.Message;
@@ -26,9 +34,15 @@ import android.widget.Toast;
 
 import com.example.cnc_driver.R;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,14 +51,21 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
     int printstat;
+    private RecyclerView recyclerView;
+    private LinearLayoutManager linearLayoutManager;
+    private ProductBeanAdapter productBeanAdapter;
     BluetoothAdapter mBluetoothAdapter;
     private UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
     private ProgressDialog mBluetoothConnectProgressDialog;
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
-    private Button btnCnt, btnprint;
+    private TextView txttotal,namebill;
+    private Button btnCnt, btnprint,btnpay;
     private TextView txtsta;
+    private BillResponse.BillBean billBean;
+    private List<BillResponse.BillBean.ProductsBean> list;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,10 +73,15 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
         setContentView(R.layout.activity_print);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        txttotal= findViewById(R.id.totalbean);
+        recyclerView= findViewById(R.id.recyclerv);
         txtsta = findViewById(R.id.txtstatus);
+        namebill= findViewById(R.id.namebill);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         btnCnt = findViewById(R.id.connect);
+        btnpay= findViewById(R.id.pay);
         btnprint = findViewById(R.id.print);
         btnCnt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,6 +139,49 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
 
             }
         });
+
+        btnpay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(PrintActivity.this);
+                builder.setTitle("Thanh toán");
+                builder.setMessage("Bạn có muốn thanh toán không ?");
+
+                builder.setPositiveButton("Thanh toán", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                       p1();
+
+                        int TIME = 10000; //5000 ms (5 Seconds)
+
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+
+                                p2(); //call function!
+
+                                printstat = 1;
+                            }
+                        }, TIME);
+
+                    }
+                });
+                builder.setNegativeButton("Hủy", null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+
+        });
+
+        setup();
+    }
+
+    private void setup() {
+
+        linearLayoutManager= new LinearLayoutManager(this);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(linearLayoutManager);
     }
 
 
@@ -400,4 +469,37 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
         buffer.flip();
         return buffer.array();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
+    public void onEvent(ActionEvent event) {
+        switch (event.action){
+            case MessagesEvent.DATA_BILL:
+                    billBean = (BillResponse.BillBean) event.object;
+
+                    list = new ArrayList<>();
+                    list = billBean.getProducts();
+
+                    productBeanAdapter = new ProductBeanAdapter(this, list);
+                    recyclerView.setAdapter(productBeanAdapter);
+                    Intent intent= getIntent();
+                    txttotal.setText(intent.getStringExtra("total"));
+                    namebill.setText(intent.getStringExtra("name"));
+                    break;
+                default:
+                    break;
+        }
+    }
+
 }

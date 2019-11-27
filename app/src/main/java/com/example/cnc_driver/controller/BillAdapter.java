@@ -19,12 +19,16 @@ import com.example.cnc_driver.printer.PrintActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
     private Context context;
-    private List<BillResponse.BillBean> listbill;
 
+    private List<BillResponse.BillBean> listbill;
     public BillAdapter(Context context, List<BillResponse.BillBean> listbill) {
         this.context = context;
         this.listbill = listbill;
@@ -47,13 +51,35 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
 
      holder.namebill.setText(listbill.get(position).getId());
      holder.total.setText(listbill.get(position).getTotal());
-     holder.date.setText(listbill.get(position).getTime());
+     String currentdate= listbill.get(position).getTime();
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yyyy HH:mm:ss");
+
+        Date date= null;
+        try {
+            date = simpleDateFormat.parse(currentdate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+//        String strDate = dateFormat.format(date);
+//        holder.date.setText(strDate);
+  String cva= listbill.get(position).getTotal();
+  if (listbill.get(position).isStatus_pay()== true){
+      holder.status.setText("Đã thanh toán");
+  } else if (listbill.get(position).isStatus_pay()== false){
+      holder.status.setText("Chưa thanh toán");
+  }
      holder.carview.setOnClickListener(new View.OnClickListener() {
          @Override
          public void onClick(View view) {
              EventBus.getDefault().postSticky(new ActionEvent(MessagesEvent.DATA_BILL,listbill.get(position)));
-             context.startActivity(new Intent(context, PrintActivity.class));
+             Intent intent= new Intent(context, PrintActivity.class);
+             intent.putExtra("total",cva);
+             intent.putExtra("name",listbill.get(position).getId());
+             context.startActivity(intent);
          }
      });
 
@@ -70,7 +96,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
     public class Viewholder extends RecyclerView.ViewHolder {
         private CardView carview;
         private TextView namebill;
-        private TextView total,date;
+        private TextView total,date,status;
 
 
 
@@ -80,6 +106,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
             namebill= itemView.findViewById(R.id.name_bill);
             total= itemView.findViewById(R.id.total);
             date= itemView.findViewById(R.id.name_date);
+            status= itemView.findViewById(R.id.status);
 
         }
     }

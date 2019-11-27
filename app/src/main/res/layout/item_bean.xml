@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:padding="1dp"
     android:layout_marginTop="1dp"
-    android:layout_height="wrap_content">
+    android:layout_height="80dp">
 <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="19sp"
+        android:layout_height="45dp"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:textColor="@color/text"
         android:textAllCaps="false"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="10dp"
@@ -20,23 +22,44 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Số lượng: "
+        android:textSize="15sp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/name_bean"
+        android:id="@+id/aa"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="số lượng"
-        android:textSize="18dp"
+        android:textSize="15sp"
         android:id="@+id/numer"
-        android:layout_marginEnd="100dp"
-        android:layout_toStartOf="@id/price_bean"
+        android:layout_toRightOf="@id/aa"
+
+        android:layout_below="@id/name_bean"
         />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="19sp"
+        android:textSize="17sp"
         android:textAllCaps="false"
         android:text="giá"
+        android:layout_toLeftOf="@id/bb"
+       android:layout_centerVertical="true"
         android:id="@+id/price_bean"
-        android:layout_marginEnd="5dp"
-       android:layout_alignParentEnd="true"
-        android:textColor="@color/colorAccent"/>
+
+
+        android:textColor="@color/text"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="19sp"
+        android:text=" đ"
+        android:textColor="@color/text"
+        android:layout_centerVertical="true"
+        android:id="@+id/bb"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="5dp"/>
 
 </RelativeLayout>
 </androidx.cardview.widget.CardView>
