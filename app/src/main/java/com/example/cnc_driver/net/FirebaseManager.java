@@ -150,6 +150,10 @@ public class FirebaseManager {
         });
     }
 
+    public void updateBill(String id, BillResponse.BillBean billResponse){
+        mDatabaseBill.child(id).setValue(billResponse);
+    }
+
 }
 
 
