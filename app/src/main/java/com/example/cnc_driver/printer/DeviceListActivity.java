@@ -1,7 +1,4 @@
 package com.example.cnc_driver.printer;
-
-
-
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;

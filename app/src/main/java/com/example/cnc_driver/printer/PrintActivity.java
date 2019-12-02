@@ -1,6 +1,5 @@
 package com.example.cnc_driver.printer;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -11,6 +10,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import com.example.cnc_driver.common.eventBus.ActionEvent;
+import com.example.cnc_driver.common.eventBus.MessagesEvent;
+import com.example.cnc_driver.controller.ProductBeanAdapter;
+import com.example.cnc_driver.net.response.BillResponse;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -20,17 +32,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.common.eventBus.ActionEvent;
-import com.example.cnc_driver.common.eventBus.MessagesEvent;
-import com.example.cnc_driver.controller.ProductBeanAdapter;
-import com.example.cnc_driver.net.FirebaseManager;
-import com.example.cnc_driver.net.response.BillResponse;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -58,12 +60,11 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     private ProgressDialog mBluetoothConnectProgressDialog;
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
-    private TextView txttotal, namebill;
-    private Button btnCnt, btnprint, btnpay;
+    private TextView txttotal,namebill;
+    private Button btnCnt, btnprint,btnpay;
     private TextView txtsta;
     private BillResponse.BillBean billBean;
     private List<BillResponse.BillBean.ProductsBean> list;
-    private FirebaseManager firebaseManager = new FirebaseManager();
 
 
     @Override
@@ -74,16 +75,14 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        txttotal = findViewById(R.id.totalbean);
-        recyclerView = findViewById(R.id.recyclerv);
+        txttotal= findViewById(R.id.totalbean);
+        recyclerView= findViewById(R.id.recyclerv);
         txtsta = findViewById(R.id.txtstatus);
-        namebill = findViewById(R.id.namebill);
+        namebill= findViewById(R.id.namebill);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         btnCnt = findViewById(R.id.connect);
-        btnpay = findViewById(R.id.pay);
+        btnpay= findViewById(R.id.pay);
         btnprint = findViewById(R.id.print);
-
-
         btnCnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,12 +151,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-
-                        billBean.setStatus_pay(true);
-
-                        firebaseManager.updateBill(billBean.getId(),billBean);
-
-                        p1();
+                       p1();
 
                         int TIME = 10000; //5000 ms (5 Seconds)
 
@@ -185,7 +179,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
 
     private void setup() {
 
-        linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager= new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
@@ -215,11 +209,12 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     }
 
 
-    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mBluetoothConnectProgressDialog.dismiss();
+
+
             txtsta.setText("");
             txtsta.setText("Connected");
             txtsta.setTextColor(Color.rgb(97, 170, 74));
@@ -489,19 +484,21 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(ActionEvent event) {
-        switch (event.action) {
+        switch (event.action){
             case MessagesEvent.DATA_BILL:
-                billBean = (BillResponse.BillBean) event.object;
-                list = new ArrayList<>();
-                list = billBean.getProducts();
-                productBeanAdapter = new ProductBeanAdapter(this, list);
-                recyclerView.setAdapter(productBeanAdapter);
-                Intent intent = getIntent();
-                txttotal.setText(intent.getStringExtra("total"));
-                namebill.setText(intent.getStringExtra("name"));
-                break;
-            default:
-                break;
+                    billBean = (BillResponse.BillBean) event.object;
+
+                    list = new ArrayList<>();
+                    list = billBean.getProducts();
+
+                    productBeanAdapter = new ProductBeanAdapter(this, list);
+                    recyclerView.setAdapter(productBeanAdapter);
+                    Intent intent= getIntent();
+                    txttotal.setText(intent.getStringExtra("total"));
+                    namebill.setText(intent.getStringExtra("name"));
+                    break;
+                default:
+                    break;
         }
     }
 
