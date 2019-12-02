@@ -2,6 +2,7 @@ package com.example.cnc_driver.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
     @Override
     public void onBindViewHolder(@NonNull BillAdapter.Viewholder holder, int position) {
 
-     holder.namebill.setText(listbill.get(position).getId());
+     holder.namebill.setText("Hóa đơn "+ position);
      holder.total.setText(listbill.get(position).getTotal());
      String currentdate= listbill.get(position).getTime();
 
@@ -64,11 +65,13 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
 
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-//        String strDate = dateFormat.format(date);
-//        holder.date.setText(strDate);
+
+
   String cva= listbill.get(position).getTotal();
   if (listbill.get(position).isStatus_pay()== true){
       holder.status.setText("Đã thanh toán");
+      holder.status.setTextColor(Color.parseColor ("#2c3787"));
+      holder.carview.setCardBackgroundColor(Color.parseColor ("#69e8ff"));
   } else if (listbill.get(position).isStatus_pay()== false){
       holder.status.setText("Chưa thanh toán");
   }
@@ -78,7 +81,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
              EventBus.getDefault().postSticky(new ActionEvent(MessagesEvent.DATA_BILL,listbill.get(position)));
              Intent intent= new Intent(context, PrintActivity.class);
              intent.putExtra("total",cva);
-             intent.putExtra("name",listbill.get(position).getId());
+             intent.putExtra("name",holder.namebill.getText());
              context.startActivity(intent);
          }
      });
