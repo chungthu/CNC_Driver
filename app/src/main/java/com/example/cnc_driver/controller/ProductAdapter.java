@@ -42,7 +42,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
         assert item.get(position).getImage() != null;
-//        Picasso.get().load(item.get(position).getImage()).into(holder.img);
+        Picasso.get().load(item.get(position).getImage()).into(holder.img);
 
         holder.tvName.setText(item.get(position).getName());
         holder.tvPrice1.setText(item.get(position).getPrice1());

@@ -29,6 +29,7 @@ import java.util.List;
 public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
     private Context context;
 
+    SimpleDateFormat dt1 = new SimpleDateFormat("hh:mm");
     private List<BillResponse.BillBean> listbill;
     public BillAdapter(Context context, List<BillResponse.BillBean> listbill) {
         this.context = context;
@@ -52,20 +53,8 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
 
      holder.namebill.setText("Hóa đơn "+ position);
      holder.total.setText(listbill.get(position).getTotal());
-     String currentdate= listbill.get(position).getTime();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMM dd yyyy HH:mm:ss");
-
-        Date date= null;
-        try {
-            date = simpleDateFormat.parse(currentdate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
-
+        holder.date.setText(dt1.format(new Date(listbill.get(position).getTime())));
 
   String cva= listbill.get(position).getTotal();
   if (listbill.get(position).isStatus_pay()== true){
@@ -82,6 +71,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
              Intent intent= new Intent(context, PrintActivity.class);
              intent.putExtra("total",cva);
              intent.putExtra("name",holder.namebill.getText());
+             intent.putExtra("stt",position);
              context.startActivity(intent);
          }
      });

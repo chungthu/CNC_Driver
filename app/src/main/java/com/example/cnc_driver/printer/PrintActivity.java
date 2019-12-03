@@ -14,6 +14,7 @@ import android.os.Bundle;
 import com.example.cnc_driver.common.eventBus.ActionEvent;
 import com.example.cnc_driver.common.eventBus.MessagesEvent;
 import com.example.cnc_driver.controller.ProductBeanAdapter;
+import com.example.cnc_driver.net.FirebaseManager;
 import com.example.cnc_driver.net.response.BillResponse;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -54,17 +55,18 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ProductBeanAdapter productBeanAdapter;
-    BluetoothAdapter mBluetoothAdapter;
+    private BluetoothAdapter mBluetoothAdapter;
     private UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
     private ProgressDialog mBluetoothConnectProgressDialog;
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
-    private TextView txttotal,namebill;
-    private Button btnCnt, btnprint,btnpay;
+    private TextView txttotal, namebill;
+    private Button btnCnt, btnprint, btnpay;
     private TextView txtsta;
     private BillResponse.BillBean billBean;
     private List<BillResponse.BillBean.ProductsBean> list;
+    private FirebaseManager firebaseManager = new FirebaseManager();
 
 
     @Override
@@ -75,13 +77,13 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        txttotal= findViewById(R.id.totalbean);
-        recyclerView= findViewById(R.id.recyclerv);
+        txttotal = findViewById(R.id.totalbean);
+        recyclerView = findViewById(R.id.recyclerv);
         txtsta = findViewById(R.id.txtstatus);
-        namebill= findViewById(R.id.namebill);
+        namebill = findViewById(R.id.namebill);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         btnCnt = findViewById(R.id.connect);
-        btnpay= findViewById(R.id.pay);
+        btnpay = findViewById(R.id.pay);
         btnprint = findViewById(R.id.print);
         btnCnt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,6 +129,8 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
 
                 int TIME = 10000; //5000 ms (5 Seconds)
 
+
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -151,7 +155,10 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                       p1();
+                        p1();
+
+                        billBean.setStatus_pay(true);
+                        firebaseManager.updateBill(billBean.getId(),billBean);
 
                         int TIME = 10000; //5000 ms (5 Seconds)
 
@@ -179,7 +186,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
 
     private void setup() {
 
-        linearLayoutManager= new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(linearLayoutManager);
     }
@@ -281,7 +288,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                             DeviceListActivity.class);
                     startActivityForResult(connectIntent, REQUEST_CONNECT_DEVICE);
                 } else {
-                    Toast.makeText(PrintActivity.this, "Message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PrintActivity.this, "Chưa kết nối!", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -484,21 +491,21 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
 
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(ActionEvent event) {
-        switch (event.action){
+        switch (event.action) {
             case MessagesEvent.DATA_BILL:
-                    billBean = (BillResponse.BillBean) event.object;
+                billBean = (BillResponse.BillBean) event.object;
 
-                    list = new ArrayList<>();
-                    list = billBean.getProducts();
+                list = new ArrayList<>();
+                list = billBean.getProducts();
 
-                    productBeanAdapter = new ProductBeanAdapter(this, list);
-                    recyclerView.setAdapter(productBeanAdapter);
-                    Intent intent= getIntent();
-                    txttotal.setText(intent.getStringExtra("total"));
-                    namebill.setText(intent.getStringExtra("name"));
-                    break;
-                default:
-                    break;
+                productBeanAdapter = new ProductBeanAdapter(this, list);
+                recyclerView.setAdapter(productBeanAdapter);
+                Intent intent = getIntent();
+                txttotal.setText(intent.getStringExtra("total"));
+                namebill.setText(intent.getStringExtra("name"));
+                break;
+            default:
+                break;
         }
     }
 
