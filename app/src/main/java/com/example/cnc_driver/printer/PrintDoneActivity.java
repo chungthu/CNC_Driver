@@ -1,30 +1,17 @@
 package com.example.cnc_driver.printer;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import com.example.cnc_driver.common.eventBus.ActionEvent;
-import com.example.cnc_driver.common.eventBus.MessagesEvent;
-import com.example.cnc_driver.controller.ProductBeanAdapter;
-import com.example.cnc_driver.modun.main.ui.bill.BillFragment;
-import com.example.cnc_driver.net.FirebaseManager;
-import com.example.cnc_driver.net.response.BillResponse;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -36,6 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.cnc_driver.R;
+import com.example.cnc_driver.common.eventBus.ActionEvent;
+import com.example.cnc_driver.common.eventBus.MessagesEvent;
+import com.example.cnc_driver.controller.ProductBeanAdapter;
+import com.example.cnc_driver.net.FirebaseManager;
+import com.example.cnc_driver.net.response.BillResponse;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -49,7 +41,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-public class PrintActivity extends AppCompatActivity implements Runnable {
+public class PrintDoneActivity extends AppCompatActivity {
     protected static final String TAG = "TAG";
     private static final int REQUEST_CONNECT_DEVICE = 1;
     private static final int REQUEST_ENABLE_BT = 2;
@@ -64,68 +56,27 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
     private TextView txttotal, namebill;
-    private Button btnCnt, btnpay;
-    private ImageButton  btnprint;
+
+    private ImageButton btnprint1;
     private TextView txtsta;
     private BillResponse.BillBean billBean;
     private List<BillResponse.BillBean.ProductsBean> list;
     private FirebaseManager firebaseManager = new FirebaseManager();
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_print);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_print_done);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         txttotal = findViewById(R.id.totalbean);
         recyclerView = findViewById(R.id.recyclerv);
         txtsta = findViewById(R.id.txtstatus);
         namebill = findViewById(R.id.namebill);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        btnCnt = findViewById(R.id.connect);
-        btnpay = findViewById(R.id.pay);
-       btnprint = findViewById(R.id.print);
-        btnCnt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (btnCnt.getText().equals("Connect")) {
-                    mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-                    if (mBluetoothAdapter == null) {
-                        Toast.makeText(PrintActivity.this, "Message1", Toast.LENGTH_SHORT).show();
-                    } else {
-                        if (!mBluetoothAdapter.isEnabled()) {
-                            Intent enableBtIntent = new Intent(
-                                    BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                            startActivityForResult(enableBtIntent,
-                                    REQUEST_ENABLE_BT);
-                        } else {
-                            ListPairedDevices();
-                            Intent connectIntent = new Intent(PrintActivity.this,
-                                    DeviceListActivity.class);
-                            startActivityForResult(connectIntent,
-                                    REQUEST_CONNECT_DEVICE);
 
-                        }
-                    }
+        btnprint1 = findViewById(R.id.print1);
+        setup();
 
-                } else if (btnCnt.getText().equals("Disconnect")) {
-                    if (mBluetoothAdapter != null)
-                        mBluetoothAdapter.disable();
-                    txtsta.setText("");
-                    txtsta.setText("Disconnected");
-                    txtsta.setTextColor(Color.rgb(199, 59, 59));
-                    btnprint.setEnabled(false);
-                    btnCnt.setEnabled(true);
-                    btnCnt.setText("Connect");
-                }
-            }
-
-        });
-
-        btnprint.setOnClickListener(new View.OnClickListener() {
+        btnprint1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 p1();
@@ -145,49 +96,9 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                 }, TIME);
 
             }
-        });
-
-        btnpay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(PrintActivity.this);
-                builder.setTitle("Thanh toán");
-                builder.setMessage("Bạn có muốn thanh toán không ?");
-
-                builder.setPositiveButton("Thanh toán", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                        p1();
-
-                        billBean.setStatus_pay(true);
-                        firebaseManager.updateBill(billBean.getId(),billBean);
-
-                        int TIME = 10000; //5000 ms (5 Seconds)
-
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-
-                                p2(); //call function!
-
-                                printstat = 1;
-                            }
-                        }, TIME);
-                    
-
-                    }
-                });
-                builder.setNegativeButton("Hủy", null);
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            }
 
         });
-
-        setup();
     }
-
     private void setup() {
 
         linearLayoutManager = new LinearLayoutManager(this);
@@ -229,39 +140,12 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
             txtsta.setText("");
             txtsta.setText("Connected");
             txtsta.setTextColor(Color.rgb(97, 170, 74));
-            btnprint.setEnabled(true);
-            btnCnt.setText("Disconnect");
+            btnprint1.setEnabled(true);
+
 
 
         }
     };
-
-
-    @Override
-    public void run() {
-        try {
-            mBluetoothSocket = mBluetoothDevice
-                    .createRfcommSocketToServiceRecord(applicationUUID);
-            mBluetoothAdapter.cancelDiscovery();
-            mBluetoothSocket.connect();
-            mHandler.sendEmptyMessage(0);
-        } catch (IOException eConnectException) {
-            Log.d(TAG, "CouldNotConnectToSocket", eConnectException);
-            closeSocket(mBluetoothSocket);
-            return;
-        }
-    }
-
-
-    private void closeSocket(BluetoothSocket nOpenSocket) {
-        try {
-            nOpenSocket.close();
-            Log.d(TAG, "SocketClosed");
-        } catch (IOException ex) {
-            Log.d(TAG, "CouldNotCloseSocket");
-        }
-    }
-
 
     public void onActivityResult(int mRequestCode, int mResultCode,
                                  Intent mDataIntent) {
@@ -280,19 +164,18 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                                     + mBluetoothDevice.getAddress(), true, false);
                     Thread mBlutoothConnectThread = new Thread();
                     mBlutoothConnectThread.start();
-                    // pairToDevice(mBluetoothDevice); This method is replaced by
-                    // progress dialog with thread
+
                 }
                 break;
 
             case REQUEST_ENABLE_BT:
                 if (mResultCode == Activity.RESULT_OK) {
                     ListPairedDevices();
-                    Intent connectIntent = new Intent(PrintActivity.this,
+                    Intent connectIntent = new Intent(PrintDoneActivity.this,
                             DeviceListActivity.class);
                     startActivityForResult(connectIntent, REQUEST_CONNECT_DEVICE);
                 } else {
-                    Toast.makeText(PrintActivity.this, "Chưa kết nối!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PrintDoneActivity.this, "Chưa kết nối!", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -514,3 +397,5 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     }
 
 }
+
+

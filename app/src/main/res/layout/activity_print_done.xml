@@ -4,16 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".printer.PrintActivity"
-    tools:showIn="@layout/activity_print">
+    tools:context=".printer.PrintDoneActivity">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Disconnect"
         android:textSize="22sp"
         android:textColor="@color/cardview_dark_background"
-       android:layout_marginLeft="5dp"
+        android:layout_marginLeft="5dp"
         android:id="@+id/namebill"/>
     <TextView
         android:layout_width="wrap_content"
@@ -77,31 +75,13 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/connect"
-                android:textAllCaps="false"
-                android:textColor="#ffffff"
-                android:background="@color/colorPrimary"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:text="Connect"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/pay"
-                android:textAllCaps="false"
-                android:textColor="#ffffff"
-                android:background="@color/colorPrimary"
-                android:layout_margin="4dp"
-                android:layout_weight="1"
-                android:text="Pay"/>
+
+
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:id="@+id/print"
+                android:id="@+id/print1"
                 android:background="@color/colorPrimary"
                 android:layout_weight="1"
                 android:src="@drawable/print"/>
@@ -110,6 +90,4 @@
 
 
     </LinearLayout>
-
-
 </RelativeLayout>
