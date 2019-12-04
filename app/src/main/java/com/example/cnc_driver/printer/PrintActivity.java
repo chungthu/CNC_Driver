@@ -1,6 +1,5 @@
 package com.example.cnc_driver.printer;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -11,6 +10,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+
+import com.example.cnc_driver.common.eventBus.ActionEvent;
+import com.example.cnc_driver.common.eventBus.MessagesEvent;
+import com.example.cnc_driver.controller.ProductBeanAdapter;
+import com.example.cnc_driver.net.FirebaseManager;
+import com.example.cnc_driver.net.response.BillResponse;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -20,17 +33,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.common.eventBus.ActionEvent;
-import com.example.cnc_driver.common.eventBus.MessagesEvent;
-import com.example.cnc_driver.controller.ProductBeanAdapter;
-import com.example.cnc_driver.net.FirebaseManager;
-import com.example.cnc_driver.net.response.BillResponse;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -52,7 +55,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
     private ProductBeanAdapter productBeanAdapter;
-    BluetoothAdapter mBluetoothAdapter;
+    private BluetoothAdapter mBluetoothAdapter;
     private UUID applicationUUID = UUID
             .fromString("00001101-0000-1000-8000-00805F9B34FB");
     private ProgressDialog mBluetoothConnectProgressDialog;
@@ -82,8 +85,6 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
         btnCnt = findViewById(R.id.connect);
         btnpay = findViewById(R.id.pay);
         btnprint = findViewById(R.id.print);
-
-
         btnCnt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -128,6 +129,8 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
 
                 int TIME = 10000; //5000 ms (5 Seconds)
 
+
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -152,12 +155,10 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
+                        p1();
 
                         billBean.setStatus_pay(true);
-
                         firebaseManager.updateBill(billBean.getId(),billBean);
-
-                        p1();
 
                         int TIME = 10000; //5000 ms (5 Seconds)
 
@@ -215,11 +216,12 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     }
 
 
-    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mBluetoothConnectProgressDialog.dismiss();
+
+
             txtsta.setText("");
             txtsta.setText("Connected");
             txtsta.setTextColor(Color.rgb(97, 170, 74));
@@ -286,7 +288,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                             DeviceListActivity.class);
                     startActivityForResult(connectIntent, REQUEST_CONNECT_DEVICE);
                 } else {
-                    Toast.makeText(PrintActivity.this, "Message", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PrintActivity.this, "Chưa kết nối!", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }
@@ -492,8 +494,10 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
         switch (event.action) {
             case MessagesEvent.DATA_BILL:
                 billBean = (BillResponse.BillBean) event.object;
+
                 list = new ArrayList<>();
                 list = billBean.getProducts();
+
                 productBeanAdapter = new ProductBeanAdapter(this, list);
                 recyclerView.setAdapter(productBeanAdapter);
                 Intent intent = getIntent();

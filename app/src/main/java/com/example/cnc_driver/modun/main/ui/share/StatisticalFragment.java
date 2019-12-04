@@ -22,7 +22,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class ShareFragment extends BaseFragment {
+public class StatisticalFragment extends BaseFragment {
 
     @BindView(R.id.rv_user)
     RecyclerView rvUser;
