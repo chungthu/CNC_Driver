@@ -41,12 +41,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
 
     @Override
     public void onBindViewHolder(@NonNull Viewholder holder, int position) {
-        assert item.get(position).getImage() != null;
-        Picasso.get().load(item.get(position).getImage()).into(holder.img);
-
+        if (item.get(position).getImage() != null && !item.get(position).getImage().equals("")){
+            Picasso.get().load(item.get(position).getImage()).into(holder.img);
+        }else {
+            Picasso.get().load("https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwjA5-vboZTmAhXAyYsBHeTDBs4QjRx6BAgBEAQ&url=https%3A%2F%2Fsteamcommunity.com%2Fsharedfiles%2Ffiledetails%2F%3Fid%3D1774652410&psig=AOvVaw29QzZB4QDgXfWm6EcwepmN&ust=1575283291613593").into(holder.img);
+        }
         holder.tvName.setText(item.get(position).getName());
-        holder.tvPrice1.setText(item.get(position).getPrice1());
-        holder.tvPrice2.setText(item.get(position).getPrice2());
+        holder.tvPrice1.setText(item.get(position).getPrice());
     }
 
     @Override
@@ -63,7 +64,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
         private ImageView img;
         private TextView tvName;
         private TextView tvPrice1;
-        private TextView tvPrice2;
 
         Viewholder(@NonNull View itemView) {
             super(itemView);
@@ -71,7 +71,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.Viewhold
             img = itemView.findViewById(R.id.img);
             tvName = itemView.findViewById(R.id.tv_name);
             tvPrice1 = itemView.findViewById(R.id.tv_price1);
-            tvPrice2 = itemView.findViewById(R.id.tv_price2);
         }
     }
 }

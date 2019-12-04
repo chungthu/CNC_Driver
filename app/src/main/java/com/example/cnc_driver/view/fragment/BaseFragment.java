@@ -1,4 +1,4 @@
-package com.example.cnc_driver.common.base;
+package com.example.cnc_driver.view.fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public abstract class BaseFragment extends Fragment {
-
     Unbinder unbinder;
 
     /**

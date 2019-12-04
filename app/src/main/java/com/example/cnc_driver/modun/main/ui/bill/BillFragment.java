@@ -1,19 +1,17 @@
 package com.example.cnc_driver.modun.main.ui.bill;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.common.base.BaseFragment;
 import com.example.cnc_driver.controller.BillAdapter;
 import com.example.cnc_driver.interfaces.DataBillStatus;
 import com.example.cnc_driver.net.FirebaseManager;
 import com.example.cnc_driver.net.response.BillResponse;
+import com.example.cnc_driver.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;

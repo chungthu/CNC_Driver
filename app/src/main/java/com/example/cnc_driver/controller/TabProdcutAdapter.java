@@ -9,9 +9,9 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.modun.main.ui.product.BreadFragment;
-import com.example.cnc_driver.modun.main.ui.product.FruitFragment;
-import com.example.cnc_driver.modun.main.ui.product.MilkTeaFragment;
+import com.example.cnc_driver.view.fragment.product.BreadFragment;
+import com.example.cnc_driver.view.fragment.product.FruitFragment;
+import com.example.cnc_driver.view.fragment.product.MilkTeaFragment;
 
 public class TabProdcutAdapter extends FragmentPagerAdapter {
 

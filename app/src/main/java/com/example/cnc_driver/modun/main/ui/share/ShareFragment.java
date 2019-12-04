@@ -1,35 +1,70 @@
 package com.example.cnc_driver.modun.main.ui.share;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
+import com.example.cnc_driver.controller.UserAdapter;
+import com.example.cnc_driver.interfaces.DataUserStatus;
+import com.example.cnc_driver.net.FirebaseManager;
+import com.example.cnc_driver.net.response.UserRespones;
+import com.example.cnc_driver.view.activity.AddUserActivity;
+import com.example.cnc_driver.view.fragment.BaseFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-public class ShareFragment extends Fragment {
+import java.util.ArrayList;
+import java.util.List;
 
-    private ShareViewModel shareViewModel;
+import butterknife.BindView;
+import butterknife.OnClick;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        shareViewModel =
-                ViewModelProviders.of(this).get(ShareViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_share, container, false);
-        final TextView textView = root.findViewById(R.id.text_share);
-        shareViewModel.getText().observe(this, new Observer<String>() {
+public class ShareFragment extends BaseFragment {
+
+    @BindView(R.id.rv_user)
+    RecyclerView rvUser;
+    @BindView(R.id.fab_addUser)
+    FloatingActionButton fabAddUser;
+
+    private List<UserRespones> list = new ArrayList<>();
+    private FirebaseManager firebaseManager = new FirebaseManager();
+    private UserAdapter adapter;
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_share;
+    }
+
+    @Override
+    protected void initializeViews(View view, Bundle savedInstanceState) {
+        setUp();
+    }
+
+    @OnClick(R.id.fab_addUser)
+    public void onViewClicked() {
+        startActivity(new Intent(getActivity(), AddUserActivity.class));
+    }
+
+    private void setUp(){
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),1);
+        rvUser.setHasFixedSize(true);
+        rvUser.setLayoutManager(gridLayoutManager);
+        firebaseManager.readAddUser();
+        firebaseManager.setDataUserStatus(new DataUserStatus() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void getData(List<UserRespones> item) {
+                list = item;
+                if (adapter == null) {
+                    adapter = new UserAdapter(getContext(), list);
+                    rvUser.setAdapter(adapter);
+                }else {
+                    adapter.update(list);
+                }
             }
         });
-        return root;
     }
 }

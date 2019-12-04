@@ -22,5 +22,18 @@
     <string name="title_fruit">Fruit</string>
     <string name="title_bread">Bread</string>
     <string name="title_activity_print">PrintActivity</string>
+    <string name="my_selling_category">Category</string>
+    <string name="my_selling_price">Price</string>
+    <string name="my_selling_hint_name_product">Name Product</string>
+    <string name="my_selling_hint_detail_product">Description</string>
+    <string name="my_selling_finish">Finish</string>
+    <string name="key_validate_category">You need to choose the type of product you want to sell !</string>
+    <string name="key_validate_image">You need to post photos of the product!</string>
+    <string name="key_validate_name">You need to name the product !</string>
+    <string name="menu_statistical">Statistical</string>
+    <string name="menu_employees">Employees</string>
+    <string name="menu_logout">Logout</string>
+    <string name="user_name">User name</string>
+    <string name="password">Password</string>
 
 </resources>
