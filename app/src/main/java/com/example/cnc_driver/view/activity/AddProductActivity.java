@@ -20,7 +20,6 @@ import com.example.cnc_driver.net.FirebaseManager;
 import com.example.cnc_driver.net.ImageFirebaseUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AddProductActivity extends BaseActivity {

@@ -14,8 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activity.AddUserActivity"></activity>
-        <activity android:name=".view.activity.ChooseCategoryActivity" />
+        <activity android:name=".view.activity.ChooseCategoryActivity"></activity>
+        <activity android:name=".view.activity.AddUserActivity" />
         <activity android:name=".view.activity.AddProductActivity" />
         <activity
             android:name=".printer.PrintActivity"
