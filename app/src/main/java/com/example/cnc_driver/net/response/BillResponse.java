@@ -6,11 +6,31 @@ public class BillResponse {
 
     public static class BillBean {
         private String id;
+        private String id_table;
+        private String name;
+
         private String responsible;
         private boolean status_pay;
         private String time;
         private String total;
         private List<ProductsBean> products;
+
+        public String getId_table() {
+            return id_table;
+        }
+
+        public void setId_table(String id_table) {
+            this.id_table = id_table;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
 
         public String getId() {
             return id;

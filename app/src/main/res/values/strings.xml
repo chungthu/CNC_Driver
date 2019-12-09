@@ -10,8 +10,8 @@
 
     <string name="menu_gallery">Gallery</string>
     <string name="menu_bill">Hóa đơn</string>
-    <string name="menu_tools">Công cụ</string>
-    <string name="menu_share">Thống kê</string>
+    <string name="menu_tools">Thống kê</string>
+    <string name="menu_share">Nhân viên</string>
     <string name="menu_send">Thoát</string>
     <string name="menu_store">Store</string>
     <string name="menu_product">Menu</string>
@@ -21,7 +21,7 @@
     <string name="title_milk_tea">Milk Tea</string>
     <string name="title_fruit">Fruit</string>
     <string name="title_bread">Bread</string>
-    <string name="title_activity_print">PrintActivity</string>
+    <string name="title_activity_print">Chi tiết</string>
     <string name="my_selling_category">Category</string>
     <string name="my_selling_price">Price</string>
     <string name="my_selling_hint_name_product">Name Product</string>
@@ -30,9 +30,9 @@
     <string name="key_validate_category">You need to choose the type of product you want to sell !</string>
     <string name="key_validate_image">You need to post photos of the product!</string>
     <string name="key_validate_name">You need to name the product !</string>
-    <string name="menu_statistical">Statistical</string>
-    <string name="menu_employees">Employees</string>
-    <string name="menu_logout">Logout</string>
+    <string name="menu_statistical">Thống kê</string>
+    <string name="menu_employees">Nhân viên</string>
+    <string name="menu_logout">Đăng xuất</string>
     <string name="user_name">User name</string>
     <string name="password">Password</string>
 

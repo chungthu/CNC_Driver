@@ -63,7 +63,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
     private ProgressDialog mBluetoothConnectProgressDialog;
     private BluetoothSocket mBluetoothSocket;
     BluetoothDevice mBluetoothDevice;
-    private TextView txttotal, namebill;
+    private TextView txttotal, namebill,numbertable;
     private Button btnCnt, btnpay;
     private ImageButton  btnprint;
     private TextView txtsta;
@@ -84,6 +84,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
         recyclerView = findViewById(R.id.recyclerv);
         txtsta = findViewById(R.id.txtstatus);
         namebill = findViewById(R.id.namebill);
+        numbertable= findViewById(R.id.numbertable);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         btnCnt = findViewById(R.id.connect);
         btnpay = findViewById(R.id.pay);
@@ -505,6 +506,7 @@ public class PrintActivity extends AppCompatActivity implements Runnable {
                 productBeanAdapter = new ProductBeanAdapter(this, list);
                 recyclerView.setAdapter(productBeanAdapter);
                 Intent intent = getIntent();
+                numbertable.setText(intent.getStringExtra("table"));
                 txttotal.setText(intent.getStringExtra("total"));
                 namebill.setText(intent.getStringExtra("name"));
                 break;

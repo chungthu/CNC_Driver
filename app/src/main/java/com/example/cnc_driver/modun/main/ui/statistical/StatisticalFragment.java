@@ -1,21 +1,49 @@
-package com.example.cnc_driver.modun.main.ui.tools;
+package com.example.cnc_driver.modun.main.ui.statistical;
 
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.view.activity.StatisticalDateActivity;
+import com.example.cnc_driver.net.response.BillResponse;
 import com.example.cnc_driver.view.activity.StatisticalMonthActivity;
 import com.example.cnc_driver.view.fragment.BaseFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-public class ToolsFragment extends BaseFragment {
-    private Button btnca,btndate,btnmonth;
-    private TextView txtfirt,txtend;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+
+public class StatisticalFragment extends BaseFragment {
+    private Button  btnmonth;
+    private TextView txtend;
+
+    int total =0;
+    ArrayList<Integer> integers = new ArrayList<>();
+    private List<BillResponse.BillBean> list;
+    private List<BillResponse.BillBean> list2;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_tools;
@@ -24,32 +52,7 @@ public class ToolsFragment extends BaseFragment {
     @Override
     protected void initializeViews(View view, Bundle savedInstanceState) {
         init();
-        btnca.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder mbuilder = new AlertDialog.Builder(getActivity());
-                View mview= getLayoutInflater().inflate(R.layout.dialog_end,null);
-                EditText editText=(EditText) mview.findViewById(R.id.edtnumber);
-                Button btn=(Button) mview.findViewById(R.id.btnkethuc);
-
-                mbuilder.setView(mview);
-                AlertDialog alertDialog= mbuilder.create();
-                alertDialog.show();
-                btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        txtfirt.setText(editText.getText());
-                        alertDialog.dismiss();
-                    }
-                });
-            }
-        });
-        btndate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getActivity(), StatisticalDateActivity.class));
-            }
-        });
+        setup();
         btnmonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,13 +60,64 @@ public class ToolsFragment extends BaseFragment {
             }
         });
     }
+
+    private void setup() {
+        list = new ArrayList<>();
+        list2 = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("E MMM dd");
+        String date = dateFormat.format(calendar.getTime());
+        Query query = FirebaseDatabase.getInstance().getReference("Bill")
+                .orderByChild("time")
+                .startAt(date)
+                .endAt(date + "\uf88f");
+        query.addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            list.clear();
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    BillResponse.BillBean billResponse = snapshot.getValue(BillResponse.BillBean.class);
+                    list.add(billResponse);
+                }
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).isStatus_pay()) {
+                        list2.add(list.get(i));
+                    }
+
+                }
+                for (int j=0; j < list2.size(); j++){
+                    int a=Integer.parseInt(list2.get(j).getTotal());
+                    integers.add(a);
+                }
+                for (Integer element : integers){
+                    total += element;
+                }
+                Locale locale = new Locale("vi","VN");
+                NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+                double tt= Double.parseDouble(String.valueOf(total));
+                txtend.setText(String.format(format.format(tt)));
+
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    };
+
     private void init() {
-        btnca= getView().findViewById(R.id.btnend);
-        btndate=getView().findViewById(R.id.btndate);
-        btnmonth= getView().findViewById(R.id.btnmonth);
-        txtfirt= getView().findViewById(R.id.txtfirt);
+
+        btnmonth = getView().findViewById(R.id.btnmonth);
+
         txtend = getView().findViewById(R.id.txtend);
 
 
     }
+
+
 }

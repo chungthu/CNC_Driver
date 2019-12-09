@@ -63,12 +63,24 @@
                 android:layout_height="wrap_content"
                 android:textSize="20dp"
                 android:id="@+id/totalbean"
-                android:textColor="@color/text"
+                android:textColor="@color/cardview_dark_background"
                 android:text="1000"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" đ"
+                android:textColor="@color/cardview_dark_background"
+                android:textSize="20dp"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/cardview_dark_background"
+                android:layout_height="wrap_content"
+                android:text="so ban"
+                android:gravity="right"
+                android:id="@+id/numbertable"
+                android:layout_marginRight="10dp"
+                 android:layout_weight="1"
                 android:textSize="20dp"
                 />
         </LinearLayout>

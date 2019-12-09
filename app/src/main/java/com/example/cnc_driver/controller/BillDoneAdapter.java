@@ -47,7 +47,7 @@ public class BillDoneAdapter extends RecyclerView.Adapter<BillDoneAdapter.Viewho
 
     @Override
     public void onBindViewHolder(@NonNull BillDoneAdapter.Viewholder holder, int position) {
-        holder.namebill.setText("Hóa đơn "+ position);
+        holder.namebill.setText(listbill.get(position).getName());
         holder.total.setText(listbill.get(position).getTotal());
         holder.date.setText(dt1.format(new Date(listbill.get(position).getTime())));
         String cva= listbill.get(position).getTotal();
@@ -59,10 +59,11 @@ public class BillDoneAdapter extends RecyclerView.Adapter<BillDoneAdapter.Viewho
             @Override
             public void onClick(View view) {
                 EventBus.getDefault().postSticky(new ActionEvent(MessagesEvent.DATA_BILL,listbill.get(position)));
-                Intent intent= new Intent(context, PrintDoneActivity.class);
+                Intent intent= new Intent(context, PrintActivity.class);
                 intent.putExtra("total",cva);
                 intent.putExtra("name",holder.namebill.getText());
                 intent.putExtra("stt",position);
+                intent.putExtra("table",listbill.get(position).getId_table());
                 context.startActivity(intent);
             }
         });
