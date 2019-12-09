@@ -8,20 +8,18 @@ public class ProductResponse {
     private String name;
     private String category_id;
     private String image;
-    private String price1;
-    private String price2;
+    private String price;
     private String description;
 
     public ProductResponse() {
     }
 
-    public ProductResponse(String id, String name, String category_id, String image, String price1, String price2, String description) {
+    public ProductResponse(String id, String name, String category_id, String image, String price, String description) {
         this.id = id;
         this.name = name;
         this.category_id = category_id;
         this.image = image;
-        this.price1 = price1;
-        this.price2 = price2;
+        this.price = price;
         this.description = description;
     }
 
@@ -57,20 +55,12 @@ public class ProductResponse {
         this.image = image;
     }
 
-    public String getPrice1() {
-        return price1;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPrice1(String price1) {
-        this.price1 = price1;
-    }
-
-    public String getPrice2() {
-        return price2;
-    }
-
-    public void setPrice2(String price2) {
-        this.price2 = price2;
+    public void setPrice(String price) {
+        this.price = price;
     }
 
     public String getDescription() {

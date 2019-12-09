@@ -1,6 +1,7 @@
-package com.example.cnc_driver.modun.main.ui.product;
+package com.example.cnc_driver.view.fragment.product;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,31 +10,32 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.common.base.BaseFragment;
 import com.example.cnc_driver.controller.ProductAdapter;
-import com.example.cnc_driver.interfaces.DataMilkteaStatus;
+import com.example.cnc_driver.interfaces.DataBreadStatus;
 import com.example.cnc_driver.net.FirebaseManager;
 import com.example.cnc_driver.net.response.ProductResponse;
+import com.example.cnc_driver.view.activity.AddProductActivity;
+import com.example.cnc_driver.view.fragment.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MilkTeaFragment extends BaseFragment {
+public class BreadFragment extends BaseFragment {
 
-
-    @BindView(R.id.rv_milk_tea)
-    RecyclerView rvMilkTea;
+    @BindView(R.id.rv_bread)
+    RecyclerView rvBread;
     private ProductAdapter adapter;
     private List<ProductResponse> list;
     private FirebaseManager firebaseManager = new FirebaseManager();
 
-    public static MilkTeaFragment newInstance() {
-        MilkTeaFragment fragment = new MilkTeaFragment();
+    public static BreadFragment newInstance() {
+        BreadFragment fragment = new BreadFragment();
         Bundle bundle = new Bundle();
         fragment.setArguments(bundle);
         return fragment;
@@ -41,7 +43,7 @@ public class MilkTeaFragment extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_milk_tea;
+        return R.layout.fragment_bread;
     }
 
     @Override
@@ -49,24 +51,29 @@ public class MilkTeaFragment extends BaseFragment {
         setup();
     }
 
-    private void setup(){
-        firebaseManager.reaAllDataTea();
+    private void setup() {
+        firebaseManager.readAllBread();
         RecyclerView.LayoutManager manager = new GridLayoutManager(getContext(), 1);
-        rvMilkTea.setHasFixedSize(true);
-        rvMilkTea.setLayoutManager(manager);
+        rvBread.setHasFixedSize(true);
+        rvBread.setLayoutManager(manager);
         list = new ArrayList<>();
 
-        firebaseManager.setDataMilkteaStatus(new DataMilkteaStatus() {
+        firebaseManager.setDataBreadStatus(new DataBreadStatus() {
             @Override
             public void getData(List<ProductResponse> item) {
                 list = item;
                 if (adapter == null) {
                     adapter = new ProductAdapter(getContext(), item);
-                    rvMilkTea.setAdapter(adapter);
-                }else {
+                    rvBread.setAdapter(adapter);
+                } else {
                     adapter.update(item);
                 }
             }
         });
+    }
+
+    @OnClick(R.id.fab_addProduct)
+    public void onViewClicked() {
+        startActivity(new Intent(getActivity(), AddProductActivity.class));
     }
 }

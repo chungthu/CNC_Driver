@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.example.cnc_driver.modun.main.ui.product.ProductFragment"
+        android:name="com.example.cnc_driver.view.fragment.product.ProductFragment"
         android:label="@string/menu_product"
         tools:layout="@layout/fragment_product" />
 

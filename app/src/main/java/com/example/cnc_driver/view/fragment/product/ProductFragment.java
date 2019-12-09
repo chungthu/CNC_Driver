@@ -1,4 +1,4 @@
-package com.example.cnc_driver.modun.main.ui.product;
+package com.example.cnc_driver.view.fragment.product;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,8 +6,8 @@ import android.view.View;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.common.base.BaseFragment;
 import com.example.cnc_driver.controller.TabProdcutAdapter;
+import com.example.cnc_driver.view.fragment.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import butterknife.BindView;

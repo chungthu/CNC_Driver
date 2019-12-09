@@ -9,8 +9,10 @@ import com.example.cnc_driver.interfaces.DataBillStatus;
 import com.example.cnc_driver.interfaces.DataBreadStatus;
 import com.example.cnc_driver.interfaces.DataFruitStatus;
 import com.example.cnc_driver.interfaces.DataMilkteaStatus;
+import com.example.cnc_driver.interfaces.DataUserStatus;
 import com.example.cnc_driver.net.response.BillResponse;
 import com.example.cnc_driver.net.response.ProductResponse;
+import com.example.cnc_driver.net.response.UserRespones;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,14 +25,19 @@ import java.util.List;
 public class FirebaseManager {
     static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Product");
     static DatabaseReference mDatabaseBill = FirebaseDatabase.getInstance().getReference("Bill");
+    static DatabaseReference mDatabaseUser = FirebaseDatabase.getInstance().getReference("User");
+
     private List<ProductResponse> item = new ArrayList<>();
     private List<ProductResponse> itemFruit = new ArrayList<>();
     private List<ProductResponse> itemBr = new ArrayList<>();
     private List<BillResponse.BillBean> itemBill = new ArrayList<>();
+    private List<UserRespones> itemUser = new ArrayList<>();
+
     private DataMilkteaStatus dataMilkteaStatus;
     private DataFruitStatus dataFruitStatus;
     private DataBreadStatus dataBreadStatus;
     private DataBillStatus dataBillStatus;
+    private DataUserStatus dataUserStatus;
 
     public void setDataMilkteaStatus(DataMilkteaStatus dataMilkteaStatus) {
         this.dataMilkteaStatus = dataMilkteaStatus;
@@ -48,18 +55,21 @@ public class FirebaseManager {
         this.dataBillStatus = dataBillStatus;
     }
 
+    public void setDataUserStatus(DataUserStatus dataUserStatus){
+        this.dataUserStatus = dataUserStatus;
+    }
+
 
     //Insert
-    public static void insertProduct(String name, String id_category, String name_category, String image,
-                                     String priceM, String priceL, String description) {
+    public void insertProduct(String name, String id_category, String image,
+                                     String price, String description) {
         String key = mDatabase.push().getKey();
 
-        ProductResponse item = new ProductResponse(key, name, id_category, image, priceM, priceL, description);
+        ProductResponse item = new ProductResponse(key, name, id_category, image, price, description);
 
         assert key != null;
         mDatabase.child(key).setValue(item);
     }
-
     //Update
     public void updateproduct(String id_product, ProductResponse item) {
         mDatabase.child(id_product).setValue(item);
@@ -152,6 +162,46 @@ public class FirebaseManager {
 
     public void updateBill(String id, BillResponse.BillBean billResponse){
         mDatabaseBill.child(id).setValue(billResponse);
+    }
+
+
+    /** User **/
+
+    public void insertUser(String username, String password, int position){
+        String key = mDatabaseUser.push().getKey();
+        UserRespones item = new UserRespones(key,username,password,position);
+        assert key != null;
+        mDatabaseUser.child(key).setValue(item);
+    }
+
+    public void updateUser(String id , UserRespones userRespones){
+        assert id != null;
+        mDatabaseUser.child(id).setValue(userRespones);
+    }
+
+    public void deleteUser(String id){
+        assert id!= null;
+        mDatabaseUser.child(id).removeValue();
+    }
+
+    public void readAddUser(){
+        mDatabaseUser.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                itemUser.clear();
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    UserRespones userRespones = childDataSnapshot.getValue(UserRespones.class);
+                    itemUser.add(userRespones);
+                }
+                assert itemUser != null;
+                dataUserStatus.getData(itemUser);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e(Constacts.TAG, "onCancelled: "+databaseError );
+            }
+        });
     }
 
 }
