@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
 import com.example.cnc_driver.common.Constacts;
-import com.example.cnc_driver.common.base.BaseFragment;
+
 import com.example.cnc_driver.controller.BillAdapter;
 import com.example.cnc_driver.controller.BillDoneAdapter;
 import com.example.cnc_driver.interfaces.DataBillStatus;
 import com.example.cnc_driver.net.FirebaseManager;
 import com.example.cnc_driver.net.response.BillResponse;
+import com.example.cnc_driver.view.fragment.BaseFragment;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
