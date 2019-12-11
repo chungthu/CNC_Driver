@@ -9,9 +9,11 @@ import com.example.cnc_driver.interfaces.DataBillStatus;
 import com.example.cnc_driver.interfaces.DataBreadStatus;
 import com.example.cnc_driver.interfaces.DataFruitStatus;
 import com.example.cnc_driver.interfaces.DataMilkteaStatus;
+import com.example.cnc_driver.interfaces.DataTableStatus;
 import com.example.cnc_driver.interfaces.DataUserStatus;
 import com.example.cnc_driver.net.response.BillResponse;
 import com.example.cnc_driver.net.response.ProductResponse;
+import com.example.cnc_driver.net.response.TableResponse;
 import com.example.cnc_driver.net.response.UserRespones;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,21 +25,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FirebaseManager {
-    static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Product");
-    static DatabaseReference mDatabaseBill = FirebaseDatabase.getInstance().getReference("Bill");
-    static DatabaseReference mDatabaseUser = FirebaseDatabase.getInstance().getReference("User");
+    private static DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("Product");
+    private static DatabaseReference mDatabaseBill = FirebaseDatabase.getInstance().getReference("Bill");
+    private static DatabaseReference mDatabaseUser = FirebaseDatabase.getInstance().getReference("User");
+    private static DatabaseReference mDatabaseTable = FirebaseDatabase.getInstance().getReference("Table");
 
     private List<ProductResponse> item = new ArrayList<>();
     private List<ProductResponse> itemFruit = new ArrayList<>();
     private List<ProductResponse> itemBr = new ArrayList<>();
     private List<BillResponse.BillBean> itemBill = new ArrayList<>();
     private List<UserRespones> itemUser = new ArrayList<>();
+    private List<TableResponse> itemTableResponse = new ArrayList<>();
 
     private DataMilkteaStatus dataMilkteaStatus;
     private DataFruitStatus dataFruitStatus;
     private DataBreadStatus dataBreadStatus;
     private DataBillStatus dataBillStatus;
     private DataUserStatus dataUserStatus;
+    private DataTableStatus dataTableStatus;
+
 
     public void setDataMilkteaStatus(DataMilkteaStatus dataMilkteaStatus) {
         this.dataMilkteaStatus = dataMilkteaStatus;
@@ -57,6 +63,10 @@ public class FirebaseManager {
 
     public void setDataUserStatus(DataUserStatus dataUserStatus){
         this.dataUserStatus = dataUserStatus;
+    }
+
+    public void setDataTableStatus(DataTableStatus dataTableStatus) {
+        this.dataTableStatus = dataTableStatus;
     }
 
 
@@ -202,6 +212,41 @@ public class FirebaseManager {
                 Log.e(Constacts.TAG, "onCancelled: "+databaseError );
             }
         });
+    }
+
+
+    /**
+     * Table TableResponse
+     **/
+
+    public void insertTable(String name){
+        String key = mDatabaseTable.push().getKey();
+        TableResponse item = new TableResponse(key,name);
+        assert key != null;
+        mDatabaseTable.child(key).setValue(item);
+    }
+
+    public void readAllTable() {
+        mDatabaseTable.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                itemTableResponse.clear();
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    TableResponse tableResponse = childDataSnapshot.getValue(TableResponse.class);
+                    itemTableResponse.add(tableResponse);
+                }
+                dataTableStatus.getData(itemTableResponse);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void updateTable(String key, TableResponse tableResponse) {
+        mDatabaseTable.child(key).setValue(tableResponse);
     }
 
 }
