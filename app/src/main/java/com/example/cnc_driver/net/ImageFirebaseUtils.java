@@ -7,18 +7,22 @@ import android.webkit.MimeTypeMap;
 
 import androidx.annotation.NonNull;
 
+import com.example.cnc_driver.common.eventBus.EventBusAction;
+import com.example.cnc_driver.common.eventBus.ImageEvent;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class ImageFirebaseUtils {
     private static StorageReference mStorageReference = FirebaseStorage.getInstance().getReference("Images");
     private static String url_image;
 
-    public static String fileUploader(Context context, Uri uri) {
-        StorageReference Ref = mStorageReference.child(System.currentTimeMillis() + "." + getExtension(context,uri));
+    public static void fileUploader(Context context, Uri uri) {
+        StorageReference Ref = mStorageReference.child(System.currentTimeMillis() + "." + getExtension(context, uri));
         Ref.putFile(uri)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -27,6 +31,7 @@ public class ImageFirebaseUtils {
                             @Override
                             public void onSuccess(Uri uri) {
                                 url_image = uri.toString();
+                                EventBus.getDefault().post(new ImageEvent(EventBusAction.IMAGESUCCESS, url_image));
                             }
                         });
                     }
@@ -35,9 +40,9 @@ public class ImageFirebaseUtils {
                     @Override
                     public void onFailure(@NonNull Exception exception) {
                         url_image = "https://cdn4.iconfinder.com/data/icons/ui-beast-4/32/Ui-12-512.png";
+                        EventBus.getDefault().post(new ImageEvent(EventBusAction.IMAGEFAILL, url_image));
                     }
                 });
-        return url_image;
     }
 
     private static String getExtension(Context context, Uri uri) {

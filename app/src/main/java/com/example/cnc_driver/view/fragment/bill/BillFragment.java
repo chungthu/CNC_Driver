@@ -33,11 +33,12 @@ public class BillFragment extends BaseFragment {
     private BillAdapter billAdapter;
     private BillDoneAdapter doneAdapter;
     private RecyclerView recyclerView;
-    private  RecyclerView recyclerView1;
+    private RecyclerView recyclerView1;
     private LinearLayoutManager linearLayoutManager;
     private LinearLayoutManager linearLayoutManager1;
     private DataBillStatus dataBillStatus;
     DatabaseReference db;
+
     @Override
     protected int getLayoutId() {
         return R.layout.fragment_bill;
@@ -45,38 +46,37 @@ public class BillFragment extends BaseFragment {
 
     @Override
     protected void initializeViews(View view, Bundle savedInstanceState) {
-        recyclerView= view.findViewById(R.id.recycler);
-        recyclerView1=view.findViewById(R.id.recycler1);
+        recyclerView = view.findViewById(R.id.recycler);
+        recyclerView1 = view.findViewById(R.id.recycler1);
         setup();
     }
 
-    private void setup(){
+    private void setup() {
         firebaseManager.readAllBill();
         list = new ArrayList<>();
         list2 = new ArrayList<>();
         linearLayoutManager = new LinearLayoutManager(getActivity());
-        linearLayoutManager1= new LinearLayoutManager(getActivity());
+        linearLayoutManager1 = new LinearLayoutManager(getActivity());
         recyclerView.setHasFixedSize(true);
         recyclerView1.setHasFixedSize(true);
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView1.setLayoutManager(linearLayoutManager1);
         billAdapter = new BillAdapter(getContext(), list2);
-        doneAdapter= new BillDoneAdapter(getContext(),list);
+        doneAdapter = new BillDoneAdapter(getContext(), list);
         recyclerView.setAdapter(billAdapter);
         recyclerView1.setAdapter(doneAdapter);
-         billAdapter.notifyDataSetChanged();
-         doneAdapter.notifyDataSetChanged();
+        billAdapter.notifyDataSetChanged();
+        doneAdapter.notifyDataSetChanged();
         Query query = FirebaseDatabase.getInstance().getReference("Bill")
                 .orderByChild("status_pay")
                 .equalTo(true);
         query.addListenerForSingleValueEvent(valueEventListener);
 
-        Query query1= FirebaseDatabase.getInstance().getReference("Bill")
+        Query query1 = FirebaseDatabase.getInstance().getReference("Bill")
                 .orderByChild("status_pay")
                 .equalTo(false);
         query1.addListenerForSingleValueEvent(valueEventListener1);
-
 
 
         firebaseManager.setDataBillStatus(new DataBillStatus() {
@@ -88,18 +88,19 @@ public class BillFragment extends BaseFragment {
                 if (billAdapter == null) {
 //                    billAdapter = new BillAdapter(getContext(), item);
 //                    recyclerView.setAdapter(billAdapter);
-                }else {
+                } else {
 //                    billAdapter.update(item);
                 }
             }
         });
     }
+
     ValueEventListener valueEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             list2.clear();
-            if (dataSnapshot.exists()){
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     BillResponse.BillBean billResponse = snapshot.getValue(BillResponse.BillBean.class);
                     list2.add(billResponse);
                 }
@@ -112,12 +113,12 @@ public class BillFragment extends BaseFragment {
 
         }
     };
-    ValueEventListener valueEventListener1= new ValueEventListener() {
+    ValueEventListener valueEventListener1 = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             list.clear();
-            if (dataSnapshot.exists()){
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+            if (dataSnapshot.exists()) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     BillResponse.BillBean billResponse = snapshot.getValue(BillResponse.BillBean.class);
                     list.add(billResponse);
                 }

@@ -6,4 +6,5 @@ public class Constacts {
     public static final int REQUEST_CODE_IMAGE = 1;
     public static final int REQUEST_CODE_CHOOSE_CATEGORY = 5;
 
+    public static final String KEY_UPDATE = "KEY_UPDATE";
 }

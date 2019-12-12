@@ -8,15 +8,15 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/bill"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/bill"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".printer.PrintDoneActivity"></activity>
+        <activity android:name=".printer.PrintDoneActivity"/>
         <activity android:name=".view.activity.AddProductActivity"/>
-        <activity android:name=".view.activity.StatisticalMonthActivity"></activity>
+        <activity android:name=".view.activity.StatisticalMonthActivity"/>
         <activity
             android:name=".printer.PrintActivity"
             android:label="@string/title_activity_print"
@@ -38,6 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.activity.SplashActivity" />
+        <activity android:name=".view.activity.ChooseCategoryActivity" />
     </application>
 
 </manifest>

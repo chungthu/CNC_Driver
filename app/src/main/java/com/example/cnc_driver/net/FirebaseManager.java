@@ -5,6 +5,8 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.cnc_driver.common.Constacts;
+import com.example.cnc_driver.common.eventBus.ActionEvent;
+import com.example.cnc_driver.common.eventBus.EventBusAction;
 import com.example.cnc_driver.interfaces.DataBillStatus;
 import com.example.cnc_driver.interfaces.DataBreadStatus;
 import com.example.cnc_driver.interfaces.DataFruitStatus;
@@ -19,7 +21,10 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,7 +107,6 @@ public class FirebaseManager {
                     item.add(productResponse);
                 }
                 dataMilkteaStatus.getData(item);
-                Log.e(Constacts.TAG, "onDataChange: " + item);
             }
 
             @Override
@@ -247,6 +251,26 @@ public class FirebaseManager {
 
     public void updateTable(String key, TableResponse tableResponse) {
         mDatabaseTable.child(key).setValue(tableResponse);
+    }
+
+    public void bill(String id_table) {
+        Query query = mDatabaseBill.orderByChild("status_pay").equalTo(false);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
+                    if (childDataSnapshot.getValue(BillResponse.BillBean.class).getId_table().equals(id_table)) {
+                        BillResponse.BillBean billResponse = childDataSnapshot.getValue(BillResponse.BillBean.class);
+                        EventBus.getDefault().postSticky(new ActionEvent(EventBusAction.DATA_BILL, billResponse));
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }

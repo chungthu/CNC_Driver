@@ -8,7 +8,6 @@ public class BillResponse {
         private String id;
         private String id_table;
         private String name;
-
         private String responsible;
         private boolean status_pay;
         private String time;

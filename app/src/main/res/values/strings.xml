@@ -9,10 +9,10 @@
     <string name="action_settings">Settings</string>
 
     <string name="menu_gallery">Gallery</string>
-    <string name="menu_bill">Hóa đơn</string>
-    <string name="menu_tools">Thống kê</string>
-    <string name="menu_share">Nhân viên</string>
-    <string name="menu_send">Thoát</string>
+    <string name="menu_bill">Bill</string>
+    <string name="menu_tools">Statistical</string>
+    <string name="menu_share">Employees</string>
+    <string name="menu_send">Exit</string>
     <string name="menu_store">Store</string>
     <string name="menu_product">Menu</string>
 
@@ -21,7 +21,7 @@
     <string name="title_milk_tea">Milk Tea</string>
     <string name="title_fruit">Fruit</string>
     <string name="title_bread">Bread</string>
-    <string name="title_activity_print">Chi tiết</string>
+    <string name="title_activity_print">Bill Detail</string>
     <string name="my_selling_category">Category</string>
     <string name="my_selling_price">Price</string>
     <string name="my_selling_hint_name_product">Name Product</string>
@@ -30,12 +30,18 @@
     <string name="key_validate_category">You need to choose the type of product you want to sell !</string>
     <string name="key_validate_image">You need to post photos of the product!</string>
     <string name="key_validate_name">You need to name the product !</string>
-    <string name="menu_statistical">Thống kê</string>
-    <string name="menu_employees">Nhân viên</string>
-    <string name="menu_logout">Đăng xuất</string>
+    <string name="menu_statistical">Statistical</string>
+    <string name="menu_employees">Employees</string>
+    <string name="menu_logout">Logout</string>
     <string name="user_name">User name</string>
     <string name="password">Password</string>
     <string name="key_inset_Table">Insert Table</string>
     <string name="key_emtry">Not Empty</string>
+    <string name="key_update">Update</string>
+    <string name="key_delete">Delete</string>
+    <string name="key_you_sure_want_to_delete_this_contact">You sure want to delete this product?</string>
+    <string name="key_NO">No</string>
+    <string name="key_YES">Yes</string>
+    <string name="not_bill">Not Bill in Table</string>
 
 </resources>

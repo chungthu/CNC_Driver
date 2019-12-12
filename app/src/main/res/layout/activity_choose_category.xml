@@ -1,9 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="@dimen/_5sdp"
     tools:context=".view.activity.ChooseCategoryActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/ll_milk_tea"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_milk_tea"
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="wrap_content"
+            android:text="@string/title_milk_tea"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@android:color/black"/>
+
+        <ImageView
+            android:id="@+id/img_check_miiltea"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:visibility="gone"
+            android:src="@drawable/ic_check"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_fruit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25sdp"
+        android:gravity="center_vertical"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_fruit"
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="wrap_content"
+            android:text="@string/title_fruit"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@android:color/black"/>
+
+        <ImageView
+            android:id="@+id/img_check_fruit"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:src="@drawable/ic_check"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/colorPrimary"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="@dimen/_5sdp"/>
+
+    <LinearLayout
+        android:id="@+id/ll_bread"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_25sdp"
+        android:layout_gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_bread"
+            android:layout_width="0dp"
+            android:layout_weight="9"
+            android:layout_height="wrap_content"
+            android:text="@string/title_bread"
+            android:textSize="@dimen/_12sdp"
+            android:textColor="@android:color/black"/>
+
+        <ImageView
+            android:id="@+id/img_check_bread"
+            android:layout_width="0dp"
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:src="@drawable/ic_check"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

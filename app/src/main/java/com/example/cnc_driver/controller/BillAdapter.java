@@ -13,16 +13,9 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.common.eventBus.ActionEvent;
-import com.example.cnc_driver.common.eventBus.MessagesEvent;
 import com.example.cnc_driver.net.response.BillResponse;
-import com.example.cnc_driver.printer.PrintActivity;
 import com.example.cnc_driver.printer.PrintDoneActivity;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +48,7 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
 
         holder.namebill.setText(listbill.get(position).getName());
         holder.total.setText(listbill.get(position).getTotal());
-        if (listbill.get(position).getTime()!= null) {
+        if (listbill.get(position).getTime() != null) {
             holder.date.setText(dt1.format(new Date(listbill.get(position).getTime())));
         }
 
@@ -64,16 +57,12 @@ public class BillAdapter extends RecyclerView.Adapter<BillAdapter.Viewholder> {
         holder.status.setText("Đã thanh toán");
         holder.status.setTextColor(Color.parseColor("#2c3787"));
 
-
         holder.carview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().postSticky(new ActionEvent(MessagesEvent.DATA_BILL, listbill.get(position)));
+//                EventBus.getDefault().postSticky(new ActionEvent(EventBusAction.DATA_BILL, listbill.get(position)));
                 Intent intent = new Intent(context, PrintDoneActivity.class);
-                intent.putExtra("total", cva);
-                intent.putExtra("name", holder.namebill.getText());
-                intent.putExtra("stt", position);
-                intent.putExtra("table",listbill.get(position).getId_table());
+//                intent.putExtra("table", listbill.get(position).getId_table());
                 context.startActivity(intent);
             }
         });

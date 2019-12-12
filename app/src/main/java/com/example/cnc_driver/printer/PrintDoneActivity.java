@@ -1,9 +1,5 @@
 package com.example.cnc_driver.printer;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -17,14 +13,17 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.cnc_driver.R;
 import com.example.cnc_driver.common.eventBus.ActionEvent;
-import com.example.cnc_driver.common.eventBus.MessagesEvent;
+import com.example.cnc_driver.common.eventBus.EventBusAction;
 import com.example.cnc_driver.controller.ProductBeanAdapter;
 import com.example.cnc_driver.net.FirebaseManager;
 import com.example.cnc_driver.net.response.BillResponse;
@@ -33,7 +32,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -380,7 +378,7 @@ public class PrintDoneActivity extends AppCompatActivity {
     @Subscribe(sticky = true, threadMode = ThreadMode.MAIN)
     public void onEvent(ActionEvent event) {
         switch (event.action) {
-            case MessagesEvent.DATA_BILL:
+            case EventBusAction.DATA_BILL:
                 billBean = (BillResponse.BillBean) event.object;
 
                 list = new ArrayList<>();

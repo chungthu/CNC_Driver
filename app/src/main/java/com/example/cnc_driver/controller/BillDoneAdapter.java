@@ -2,7 +2,6 @@ package com.example.cnc_driver.controller;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +13,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
 import com.example.cnc_driver.common.eventBus.ActionEvent;
-import com.example.cnc_driver.common.eventBus.MessagesEvent;
+import com.example.cnc_driver.common.eventBus.EventBusAction;
 import com.example.cnc_driver.net.response.BillResponse;
 import com.example.cnc_driver.printer.PrintActivity;
-import com.example.cnc_driver.printer.PrintDoneActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -58,7 +56,7 @@ public class BillDoneAdapter extends RecyclerView.Adapter<BillDoneAdapter.Viewho
         holder.carview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EventBus.getDefault().postSticky(new ActionEvent(MessagesEvent.DATA_BILL,listbill.get(position)));
+                EventBus.getDefault().postSticky(new ActionEvent(EventBusAction.DATA_BILL,listbill.get(position)));
                 Intent intent= new Intent(context, PrintActivity.class);
                 intent.putExtra("total",cva);
                 intent.putExtra("name",holder.namebill.getText());
