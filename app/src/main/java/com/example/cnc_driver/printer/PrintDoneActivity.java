@@ -1,5 +1,6 @@
 package com.example.cnc_driver.printer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -130,12 +131,11 @@ public class PrintDoneActivity extends AppCompatActivity {
     }
 
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             mBluetoothConnectProgressDialog.dismiss();
-
-
             txtsta.setText("");
             txtsta.setText("Connected");
             txtsta.setTextColor(Color.rgb(97, 170, 74));
