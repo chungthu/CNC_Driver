@@ -14,11 +14,8 @@ import android.os.Bundle;
 import com.example.cnc_driver.common.eventBus.ActionEvent;
 import com.example.cnc_driver.common.eventBus.MessagesEvent;
 import com.example.cnc_driver.controller.ProductBeanAdapter;
-import com.example.cnc_driver.modun.main.ui.bill.BillFragment;
 import com.example.cnc_driver.net.FirebaseManager;
 import com.example.cnc_driver.net.response.BillResponse;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;

@@ -1,4 +1,4 @@
-package com.example.cnc_driver.modun.main.ui.store;
+package com.example.cnc_driver.view.fragment.store;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;

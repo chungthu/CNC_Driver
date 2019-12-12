@@ -90,7 +90,6 @@ public class AddProductActivity extends BaseActivity {
         }
         if (requestCode == Constacts.REQUEST_CODE_CHOOSE_CATEGORY && resultCode == RESULT_OK){
             id_category = data.getStringExtra("result");
-
             assert id_category != null;
             switch (id_category){
                 case "1":

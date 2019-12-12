@@ -1,17 +1,13 @@
-package com.example.cnc_driver.modun.main.ui.bill;
+package com.example.cnc_driver.view.fragment.bill;
 
-import android.app.DownloadManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.common.Constacts;
 
 import com.example.cnc_driver.controller.BillAdapter;
 import com.example.cnc_driver.controller.BillDoneAdapter;

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.cnc_driver.modun.main.ui.store.StoreFragment"
+        android:name="com.example.cnc_driver.view.fragment.store.StoreFragment"
         android:label="@string/menu_store"
         tools:layout="@layout/fragment_store" />
 
@@ -19,13 +19,13 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.example.cnc_driver.modun.main.ui.bill.BillFragment"
+        android:name="com.example.cnc_driver.view.fragment.bill.BillFragment"
         android:label="@string/menu_bill"
         tools:layout="@layout/fragment_bill" />
 
     <fragment
         android:id="@+id/nav_tools"
-        android:name="com.example.cnc_driver.modun.main.ui.statistical.StatisticalFragment"
+        android:name="com.example.cnc_driver.view.fragment.statistical.StatisticalFragment"
         android:label="@string/menu_tools"
         tools:layout="@layout/fragment_tools" />
 

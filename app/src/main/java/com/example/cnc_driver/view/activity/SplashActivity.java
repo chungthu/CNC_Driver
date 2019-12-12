@@ -1,4 +1,4 @@
-package com.example.cnc_driver.modun;
+package com.example.cnc_driver.view.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.example.cnc_driver.R;
-import com.example.cnc_driver.modun.main.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
     private static int SPLASH_TIME_OUT = 3000;

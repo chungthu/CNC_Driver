@@ -20,15 +20,15 @@
         <activity
             android:name=".printer.PrintActivity"
             android:label="@string/title_activity_print"
-            android:parentActivityName=".modun.main.MainActivity"
+            android:parentActivityName=".view.activity.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.cnc_driver.modun.main.MainActivity" />
+                android:value="com.example.cnc_driver.view.activity.MainActivity" />
         </activity>
         <activity android:name=".printer.DeviceListActivity" />
         <activity
-            android:name=".modun.main.MainActivity"
+            android:name=".view.activity.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
@@ -37,7 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modun.SplashActivity" />
+        <activity android:name=".view.activity.SplashActivity" />
     </application>
 
 </manifest>
